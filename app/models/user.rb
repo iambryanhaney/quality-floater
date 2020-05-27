@@ -4,9 +4,17 @@ class User < ApplicationRecord
 
     has_many :posts
 
-    has_many :classifications
-    has_many :classifieds, foreign_key: :classifier_id, class_name: "Classification"
-    has_many :classifiers, through: :classifieds, source: :user
+    # Classifications of users who have classified your posts
+        # returns - A collection Classification objects
+    has_many :classifications_recieved, class_name: "Classification"
+
+    # Classifications you have made for other users posts
+        # returns - A collection Classification objects
+    has_many :classifications_made, foreign_key: :classifier_id, class_name: "Classification"
+
+    # Users you have classified posts for 
+        # returns - A collection User objects
+    has_many :classified_users, through: :classifications_made, source: :user
 
 
     def get_quality_rating(quality_id)
