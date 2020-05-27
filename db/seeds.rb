@@ -13,17 +13,18 @@ Faker::Config.random = Random.new(42)
     ### Users
     ###
 
-antonio = User.create(name: "Antonio")
-bryan = User.create(name: "Bryan Haney")
-noah = User.create(name: "Noah Shafer")
-marshall = User.create(name: "Marshall")
-nandita = User.create(name: "Nandita")
-cameron = User.create(name: "Cameron")
-ryan = User.create(name: "Ryan")
-alex = User.create(name: "Alex")
+antonio = User.create(display_name: "Antonio", username: "antonio", password: "12345")
+bryan = User.create(display_name: "Bryan Haney", username: "bryan_haney", password: "12345")
+noah = User.create(display_name: "Noah Shafer", username: "noah_shafer", password: "12345")
+marshall = User.create(display_name: "Marshall", username: "marshall")
+# nandita = User.create(display_name: "Nandita", username: "antonio")
+cameron = User.create(display_name: "Cameron", username: "cameron", password: "12345")
+# ryan = User.create(display_name: "Ryan", username: "antonio")
+# alex = User.create(display_name: "Alex", username: "antonio")
 
 20.times do
-    User.create(name: Faker::Name.unique.name)
+    temp_name = Faker::Name.unique.name
+    User.create(display_name: temp_name, username: temp_name.strip.gsub(' ', "_").downcase, password: "12345")
 end
 
 
