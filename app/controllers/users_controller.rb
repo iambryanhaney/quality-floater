@@ -17,7 +17,7 @@ class UsersController < ApplicationController
     def create
         @user = User.create(new_user_params)
         session[:current_user_id] = @user.id
-        redirect_to user_path
+        redirect_to posts_path
     end
 
 

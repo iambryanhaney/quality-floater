@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
         @user = User.find_by(username: params[:username])
         if @user && @user.authenticate(params[:password])
            session[:current_user_id] = @user.id
-           redirect_to user_path(@user)
+           redirect_to posts_path
         else
            redirect_to '/login'
         end
@@ -16,7 +16,7 @@ class SessionsController < ApplicationController
 
      def welcome
         if logged_in? 
-            redirect_to user_path(current_user)
+            redirect_to posts_path
         end
      end
 end
