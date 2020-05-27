@@ -10,17 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_26_193941) do
+ActiveRecord::Schema.define(version: 2020_05_27_201735) do
 
   create_table "classifications", force: :cascade do |t|
     t.integer "user_id"
     t.integer "classifier_id"
     t.integer "post_id"
     t.integer "quality_id"
-    t.float "rating_snapshot"
+    t.float "rating_raw"
     t.boolean "active", default: true
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.float "rating_weighted"
   end
 
   create_table "post_qualities", force: :cascade do |t|

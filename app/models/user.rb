@@ -15,28 +15,27 @@ class User < ApplicationRecord
 
     # Users you have classified posts for 
         # returns - A collection User objects
-    has_many :classified_users, through: :classifications_made, source: :user
+    #has_many :classified_users, through: :classifications_made, source: :user
 
+    # A User's rating for a specific quality
+    #has_many :quality_ratings, -> { group 'quality_id' }, class_name: "Classification"
 
-    def get_quality_rating(quality_id)
-        rating = 1
-        self.posts.each do |post|
-            post.classifications.where(quality_id: quality_id, active: true).each do |classification|
-                rating += classification.rating_snapshot
-            end
-        end
-        rating
+    # Return the raw and weighted values of a user's quality
+    def quality_rating_raw(quality_id)
+        self.classifications_received.where(quality_id: quality_id, active: true).sum(:rating_raw)
     end
 
+    def quality_rating_weighted(quality_id)
+        Math.log2(1 + self.quality_rating_raw(quality_id)) + 1
+    end
 
-    # def classify(post_id, quality_id)
-    #     classification = Classification.new
-    #     classification.user_id = self.id
-    #     classification.post_id = post_id
-    #     classification.quality_id = quality_id
-    #     classification.rating_snapshot = self.get_quality_rating(quality_id)**0.5 + 1
-    #     classification.save
-    # end
+    def classifiers_quality_average_raw(quality_id)
+        self.classifications_received.where(quality_id: quality_id, active: true).average(:rating_raw).to_f
+    end
+
+    def classifiers_quality_average_weighted(quality_id)
+        weighted_average = self.classifications_received.where(quality_id: quality_id, active: true).average(:rating_weighted).to_f
+    end
 
 end
 
