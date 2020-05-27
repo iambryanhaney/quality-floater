@@ -6,7 +6,7 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-
+Faker::Config.random = Random.new(42)
 
 
     ###
@@ -22,6 +22,9 @@ cameron = User.create(name: "Cameron")
 ryan = User.create(name: "Ryan")
 alex = User.create(name: "Alex")
 
+20.times do
+    User.create(name: Faker::Name.unique.name)
+end
 
 
 
@@ -39,6 +42,8 @@ bryan.posts.create(title: "Women's rights", content: "Women have only been deeme
 noah.posts.create(title: "On capitalism...", content: "I think unchecked capitalism sucks for the working man. But no system on paper is ever bad.")
 noah.posts.create(title: "A little music for you...", content: "Here's a track I produced.")
 
+cameron.posts.create(title: "On being a supervillain...", content: "It's tough being evil all day. I really feel for the people I destroy.")
+
 
 
 
@@ -46,10 +51,10 @@ noah.posts.create(title: "A little music for you...", content: "Here's a track I
     ### Qualities
     ###
 
-Quality.create(name: "Creative", description: "Inspires a sense of artistic appreciation.")
-Quality.create(name: "Intelligent", description: "Well informed and logical.")
-Quality.create(name: "Empathetic", description: "Ability to understand and co-experience the feelings of another.")
-Quality.create(name: "Dedicated", description: "A focused tenacity.")
+creative = Quality.create(name: "Creative", description: "Inspires a sense of artistic appreciation.")
+intelligent = Quality.create(name: "Intelligent", description: "Well informed and logical.")
+empathetic = Quality.create(name: "Empathetic", description: "Ability to understand and co-experience the feelings of another.")
+dedicated = Quality.create(name: "Dedicated", description: "A focused tenacity.")
 
 
 
@@ -58,8 +63,16 @@ Quality.create(name: "Dedicated", description: "A focused tenacity.")
     ### Classifications
     ###
 
-c = Classification.create(user_id: antonio.id, classifier_id: bryan.id, post_id: antonio.posts.first.id, quality_id: Quality.first.id, rating_snapshot: 999)
-binding.pry
+        # Classifying Bryan's posts
+Classification.create(user_id: bryan.id, classifier_id: antonio.id, post_id: bryan.posts.first.id, quality_id: creative.id, rating_raw: 1929, rating_weighted: 11.914385132155443)
+Classification.create(user_id: bryan.id, classifier_id: noah.id, post_id: bryan.posts.first.id, quality_id: creative.id, rating_raw: 37, rating_weighted: 6.247927513443585)
+Classification.create(user_id: bryan.id, classifier_id: marshall.id, post_id: bryan.posts.second.id, quality_id: empathetic.id, rating_raw: 111, rating_weighted: 7.807354922057604)
+
+        # Classifying Cameron's posts
+Classification.create(user_id: cameron.id, classifier_id: bryan.id, post_id: cameron.posts.first.id, quality_id: empathetic.id, rating_raw: bryan.quality_rating_raw(empathetic.id), rating_weighted: bryan.quality_rating_weighted(empathetic.id))
+Classification.create(user_id: cameron.id, classifier_id: antonio.id, post_id: cameron.posts.first.id, quality_id: empathetic.id, rating_raw: antonio.quality_rating_raw(empathetic.id), rating_weighted: antonio.quality_rating_weighted(empathetic.id))
+
+
 
 
 
