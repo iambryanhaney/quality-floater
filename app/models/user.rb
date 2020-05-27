@@ -6,7 +6,7 @@ class User < ApplicationRecord
 
     # Classifications of users who have classified your posts
         # returns - A collection Classification objects
-    has_many :classifications_recieved, class_name: "Classification"
+    has_many :classifications_received, class_name: "Classification"
 
     # Classifications you have made for other users posts
         # returns - A collection Classification objects
