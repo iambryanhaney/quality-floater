@@ -1,8 +1,21 @@
 class UsersController < ApplicationController
-    before_action :get_current_user, only: [:show]
+    before_action :get_user, only: [:show]
     skip_before_action :authorized, only: [:new, :create]
 
     def show
+        @user_ratings = Quality.all.order(:name).map {|q| 
+                {
+                    :name => q.name, 
+                    :rating_raw => @user.quality_rating_raw(q.id), 
+                    :rating_weighted => @user.quality_rating_weighted(q.id)
+                }
+            }
+        if params[:sort_by_rating]
+            @user_ratings.sort_by! { |rating| rating[:rating_raw] }.reverse!
+            puts @user_ratings
+        else
+            @user_ratings.sort_by! { |rating| rating[:name] }
+        end
     end
 
     def new 
@@ -20,7 +33,6 @@ class UsersController < ApplicationController
         redirect_to posts_path
     end
 
-
     # Helper Methods
 
     private 
@@ -28,14 +40,11 @@ class UsersController < ApplicationController
         params.require(:user).permit(:username, :password)
     end
 
-    private
     def edit_user_params
         params.require(:user).permit(:username, :display_name, :password)
     end
 
-    private 
-    def get_current_user
-        @user = current_user
+    def get_user
+        @user = User.find(params[:id])
     end
-
 end
