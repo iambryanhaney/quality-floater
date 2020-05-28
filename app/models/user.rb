@@ -22,7 +22,7 @@ class User < ApplicationRecord
 
     # Return the raw and weighted values of a user's quality
     def quality_rating_raw(quality_id)
-        self.classifications_received.where(quality_id: quality_id, active: true).sum(:rating_raw)
+        self.classifications_received.where(quality_id: quality_id, active: true).sum(:rating_weighted)
     end
 
     def quality_rating_weighted(quality_id)
@@ -36,7 +36,6 @@ class User < ApplicationRecord
     def classifiers_quality_average_weighted(quality_id)
         weighted_average = self.classifications_received.where(quality_id: quality_id, active: true).average(:rating_weighted).to_f
     end
-
 end
 
 
