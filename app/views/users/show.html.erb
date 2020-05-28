@@ -21,7 +21,8 @@
                     <h5 class="card-title"><%= rating[:name] %></h5>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Rating Received <%= rating[:rating_raw].round(2) %></li>
+                    <li class="list-group-item">Rating Received <%= rating[:rating_raw].round(2) %> by <%= rating[:user_count] %>
+                        users, with an average <%= rating[:name].downcase %> rating of <%= rating[:classifier_avg] %></li>
                     <li class="list-group-item">Voting Weight: <%= rating[:rating_weighted].round(2) %></li>
                 </ul>
             </div>

@@ -7,7 +7,9 @@ class UsersController < ApplicationController
                 {
                     :name => q.name, 
                     :rating_raw => @user.quality_rating_raw(q.id), 
-                    :rating_weighted => @user.quality_rating_weighted(q.id)
+                    :rating_weighted => @user.quality_rating_weighted(q.id),
+                    :user_count => @user.classifications_received.where(quality_id: q.id).count,
+                    :classifier_avg => @user.classifiers_quality_average_raw(q.id)
                 }
             }
         if params[:sort_by_rating]

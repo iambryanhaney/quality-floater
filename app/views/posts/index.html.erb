@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+</head>
+    <body>
+        <div id="posts-collection">
+            <h2>Posts</h2>
+
+            <a role="button" href='2' class="<%= params[:sort_by_rating] ? "btn btn-outline-secondary" : "btn btn-primary" %>" %>>A-Z</a>
+            <a role="button" href='2?sort_by_rating=true' class="<%= params[:sort_by_rating] ? "btn btn-primary" : "btn btn-outline-secondary"%>" >Rating High to Low</a>
+
+            <% @posts.each do |post| %>
+                <div class="post-cell card" href="users/new">
+                    <div class="card-body">
+                        <a href="<%= "posts/#{post.id}" %>"><h5 class="card-title"><%= post.title %></h5></a>
+                        <h6 class="card-title"><%= post.user.display_name %></h6>
+                        <h6 class="card-title"><%= post.created_at %></h6>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><%= post.content[0...100] %>...</li>
+                    </ul>
+                </div>
+                <br>
+            <% end %>
+        </div>
+    </body>
+</html>
