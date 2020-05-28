@@ -36,6 +36,10 @@ class User < ApplicationRecord
     def classifiers_quality_average_weighted(quality_id)
         weighted_average = self.classifications_received.where(quality_id: quality_id, active: true).average(:rating_weighted).to_f
     end
+    
+    def get_user(id:)
+        User.find(id)
+    end
 end
 
 
