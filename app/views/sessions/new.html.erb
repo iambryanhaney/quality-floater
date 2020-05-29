@@ -121,7 +121,7 @@
         Log-in to your account
       </div>
     </h2>
-    <form class="ui large form" accept-charset="UTF-8" action="/login" data-remote="true" method="post">
+    <form class="ui large form error" accept-charset="UTF-8" action="/login" data-remote="true" method="post">
       <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
       <div class="ui stacked segment">
         <div class="field">
@@ -138,9 +138,6 @@
         </div>
         <button type="submit" class="ui fluid large blue submit button">Log In</button>
       </div>
-
-      <div class="ui error message"></div>
-
     </form>
 
     <%

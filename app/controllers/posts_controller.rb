@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-    before_action :get_post, only: [:show, :classify]
+    before_action :get_post, only: [:show, :classify, :destroy]
     before_action :get_session_user, only: [:show, :classify]
 
     def index
@@ -43,6 +43,12 @@ class PostsController < ApplicationController
             @session_user.classify_post(@post, params[:quality_id])
         end
         redirect_to post_path(@post)
+    end
+
+    def destroy
+        @user = User.find(@post.user.id)
+        @post.destroy
+        redirect_to user_path(@user)
     end
 
     private

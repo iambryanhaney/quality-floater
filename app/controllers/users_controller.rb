@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-    before_action :get_user, only: [:show, :edit, :update]
+    before_action :get_user, only: [:show]
+    before_action :get_session_user, only: [:edit]
     skip_before_action :authorized, only: [:new, :create]
 
     def show
@@ -45,6 +46,7 @@ class UsersController < ApplicationController
             @user.save
             redirect_to user_path(@user)
         else 
+            session[:errors] = @user.errors
             render :edit
         end
     end
@@ -66,6 +68,10 @@ class UsersController < ApplicationController
     end
 
     def get_user
+        @user = User.find(params[:id])
+    end
+
+    def get_session_user
         @user = User.find(session[:current_user_id])
     end
 end
