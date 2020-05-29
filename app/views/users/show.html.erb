@@ -12,8 +12,8 @@
         <br>
         <h2>Qualities</h2>
 
-        <a role="button" href='2' class="<%= params[:sort_by_rating] ? "btn btn-outline-secondary" : "btn btn-primary" %>" %>>A-Z</a>
-        <a role="button" href='2?sort_by_rating=true' class="<%= params[:sort_by_rating] ? "btn btn-primary" : "btn btn-outline-secondary"%>" >Rating High to Low</a>
+        <a role="button" href='<%= @user.id %>' class="<%= params[:sort_by_rating] ? "btn btn-outline-secondary" : "btn btn-primary" %>" %>>A-Z</a>
+        <a role="button" href='<%= @user.id %>?sort_by_rating=true' class="<%= params[:sort_by_rating] ? "btn btn-primary" : "btn btn-outline-secondary"%>" >Rating High to Low</a>
 
         <% @user_ratings.each do |rating| %>
             <div class="card" style="width: 18rem;">

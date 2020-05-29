@@ -12,8 +12,21 @@
         <br>
         <p><%= @post.content  %></p>
         <br>
-        <% @post.classifications.each do |c| %>
-            <p><%= c.rating_weighted.round(2)  %></p>
-        <%end%>
+
+        Click the quality name to classify this post...<br><br>
+
+        <% @post_ratings.each do |rating| %>
+        <a role="button" href='<%= post_path(@post) %>' class="<%= @session_user.classifications_made.where(post_id: @post.id, quality_id: rating[:id]).empty? ? "btn btn-outline-secondary" : "btn btn-primary" %>">
+            <%= rating[:name] %> </a> 
+            <%= rating[:rating].round(2) %> rating by <%= rating[:user_count] %> users,
+            with an average <%= rating[:name] %> of <br>
+        <% end %>
+
+        <br><br><br>
+        
+        <h1>
+        <%= @session_user.display_name %><br>
+        <%= @session_user.id %> </h1>
+
     </body>
 </html>

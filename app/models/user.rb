@@ -36,6 +36,32 @@ class User < ApplicationRecord
     def classifiers_quality_average_weighted(quality_id)
         weighted_average = self.classifications_received.where(quality_id: quality_id, active: true).average(:rating_weighted).to_f
     end
+
+    def classify_post(post, quality_id)
+        if post.user.id == self.id
+            puts "Can't classify your own posts!"
+            return
+        end
+
+        classification = self.classifications_made.find_by(post_id: post.id, quality_id: quality_id)
+        if classification
+            classification.update(active: true)
+        else
+            self.classifications_made.create(user_id: post.user.id, post_id: post.id, quality_id: quality_id, rating_raw: self.quality_rating_raw(quality_id), rating_weighted: self.quality_rating_weighted(quality_id))
+        end
+    end
+
+    def declassify_post(post, quality_id)
+        if post.user.id == self.id
+            puts "Can't declassify your own posts!"
+            return
+        end
+
+        classification = self.classifications_made.find_by(post_id: post.id, quality_id: quality_id)
+        classification.update(active: false) if classification
+    end
+
+
     
     def get_user(id:)
         User.find(id)
