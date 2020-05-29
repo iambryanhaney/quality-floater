@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+<%
+=begin%>
+ <!DOCTYPE html>
 <html>
 <head>
     <title>Page Title</title>
@@ -6,27 +8,57 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 </head>
     <body>
-        <h1><%= @post.title %></h1>
-        <h2><%= @post.user.display_name  %></h2>
-        <h3><%= @post.user.username  %></h3>
-        <br>
-        <p><%= @post.content  %></p>
-        <br>
+        <div class="ui container">
 
-        Click the quality name to classify this post...<br><br>
+            Click the quality name to classify this post...<br><br>
 
-        <% @post_ratings.each do |rating| %>
-        <a role="button" href='<%= post_path(@post) %>' class="<%= @session_user.classifications_made.where(post_id: @post.id, quality_id: rating[:id]).empty? ? "btn btn-outline-secondary" : "btn btn-primary" %>">
-            <%= rating[:name] %> </a> 
-            <%= rating[:rating].round(2) %> rating by <%= rating[:user_count] %> users,
-            with an average <%= rating[:name] %> of <%= rating[:classifiers_average].round(2) %> <br>
-        <% end %>
+            <% @post_ratings.each do |rating| %>
+            <a role="button" href='<%= post_path(@post) %>' class="<%= @session_user.classifications_made.where(post_id: @post.id, quality_id: rating[:id]).empty? ? "btn btn-outline-secondary" : "btn btn-primary" %>">
+                <%= rating[:name] %> </a> 
+                <%= rating[:rating].round(2) %> rating by <%= rating[:user_count] %> users,
+                with an average <%= rating[:name] %> of <%= rating[:classifiers_average].round(2) %> <br>
+            <% end %>
 
-        <br><br><br>
-        
-        <h1>
-        <%= @session_user.display_name %><br>
-        <%= @session_user.id %> </h1>
+            <br>
+        </div>
 
+    </body>
+</html> 
+<%
+=end%>
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+    </head>
+    <body>
+        <div class="ui borderless inverted main menu">
+            <div class="ui text container">
+            <a href="/posts" class="item"><strong>Quality Floater</strong></a>
+            <a href="<%= "/users/#{session[:current_user_id]}" %>" class="item">My Account</a>
+            <a href="/posts/new" class="item">Create Post</a>
+            </div>
+        </div>
+
+        <div class="ui text container">
+            <h1><%= @post.title %></h1>
+            <p><strong><%= @post.user.username  %></strong></p>
+            <p style="font-size=20px"><%= @post.content  %></p>
+
+            <% @post_ratings.each do |rating| %>
+                <form class="ui form" accept-charset="UTF-8" action="<%= classify_path(@post) %>" data-remote="true" method="post">
+                    <div id="classification-btns">
+                        <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+                        <input name="quality_id" value="<%= rating[:id] %>" type="hidden">
+                        <input name="is_classified" value="<%= rating[:is_classified] %>" type="hidden">
+                        <button type="submit" class="<%=  !rating[:is_classified] ? "ui gray button" : "ui blue button" %>"><%= rating[:name] %></button>
+                        <%= rating[:rating].round(2) %> rating by <%= rating[:user_count] %> users,
+                        with an average <%= rating[:name] %> of <%= rating[:classifiers_average].round(2) %> <br>
+                    </div>
+                </form>
+            <% end %>
+        </div>
     </body>
 </html>
