@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+    </head>
+    <body>
+        <div class="ui borderless inverted main menu">
+            <div class="ui text container">
+            <a href="/posts" class="item"><strong>Quality Floater</strong></a>
+            <a href="<%= "/users/#{session[:current_user_id]}" %>" class="item">My Account</a>
+            <a href="/posts/new" class="item">Create Post</a>
+            </div>
+        </div>
+
+        <div class="ui container">
+            <form class="ui form" accept-charset="UTF-8" action="/posts" data-remote="true" method="post">
+                <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+                <div class="field">
+                    <label>Text</label>
+                    <input type="text" name="post[title]" placeholder="Title">
+                </div>
+                <div class="field">
+                    <label>Content</label>
+                    <textarea name="post[content]" rows="5"></textarea>
+                </div>
+                <button class="ui button" type="submit">Submit</button>
+            </form>
+        </div>
+    </body>
+</html>
