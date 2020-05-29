@@ -69,10 +69,10 @@ end
     ### Qualities
     ###
 
-creative = Quality.create(name: "Creative", description: "Inspires a sense of artistic appreciation.")
-intelligent = Quality.create(name: "Intelligent", description: "Well informed and logical.")
-empathetic = Quality.create(name: "Empathetic", description: "Ability to understand and co-experience the feelings of another.")
-dedicated = Quality.create(name: "Dedicated", description: "A focused tenacity.")
+creative = Quality.create(name: "Creativity", description: "Inspires a sense of artistic appreciation.")
+intelligent = Quality.create(name: "Intelligence", description: "Well informed and logical.")
+empathetic = Quality.create(name: "Empathy", description: "Ability to understand and co-experience the feelings of another.")
+dedicated = Quality.create(name: "Dedication", description: "A focused tenacity.")
 
 
 
@@ -82,12 +82,12 @@ dedicated = Quality.create(name: "Dedicated", description: "A focused tenacity."
     ###
 
         # Classifying Bryan's posts
-antonio.classify_post(bryan.posts.first, Quality.find_by(name: "Creative").id)
-noah.classify_post(bryan.posts.first, Quality.find_by(name: "Creative").id)
-marshall.classify_post(bryan.posts.second, Quality.find_by(name: "Empathetic").id)
+antonio.classify_post(bryan.posts.first, Quality.find_by(name: "Creativity").id)
+noah.classify_post(bryan.posts.first, Quality.find_by(name: "Creativity").id)
+marshall.classify_post(bryan.posts.second, Quality.find_by(name: "Empathy").id)
 
         # Classifying Cameron's post
-bryan.classify_post(cameron.posts.first, Quality.find_by(name: "Empathetic").id)
+bryan.classify_post(cameron.posts.first, Quality.find_by(name: "Empathy").id)
 
         # Random classifications (with deterministic outcome)
 500.times do
