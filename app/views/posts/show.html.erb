@@ -46,16 +46,21 @@
             <h1><%= @post.title %></h1>
             <p><strong><%= @post.user.username  %></strong></p>
             <p style="font-size=20px"><%= @post.content  %></p>
-
-            <% @post_ratings.each do |rating| %>
+            <% colors = ['blue', 'orange', 'green', 'brown'] %>
+            <% @post_ratings.each_with_index do |rating, i| %>
                 <form class="ui form" accept-charset="UTF-8" action="<%= classify_path(@post) %>" data-remote="true" method="post">
                     <div id="classification-btns">
                         <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
                         <input name="quality_id" value="<%= rating[:id] %>" type="hidden">
                         <input name="is_classified" value="<%= rating[:is_classified] %>" type="hidden">
-                        <button type="submit" class="<%=  !rating[:is_classified] ? "ui gray button" : "ui blue button" %>"><%= rating[:name] %></button>
+                        <button type="submit" class="<%=  !rating[:is_classified] ? "ui gray button" : "ui #{colors[i]} button" %>"><%= rating[:name] %></button>
                         <%= rating[:rating].round(2) %> rating by <%= rating[:user_count] %> users,
-                        with an average <%= rating[:name] %> of <%= rating[:classifiers_average].round(2) %> <br>
+                        with an average <%= rating[:name] %> of <%= rating[:classifiers_average].round(2) %> 
+                    
+                        <div class="ui progress tiny <%= rating[:rating] > 0 ? colors[i] : 'gray' %>" data-value="1" data-total="20" id="example5">
+                            <div class="bar" style="width: <%= rating[:rating] > 0 ? (rating[:rating]/rating[:max_rating])*100 : 0 %>%"></div>
+                        </div>
+                        <br>
                     </div>
                 </form>
             <% end %>

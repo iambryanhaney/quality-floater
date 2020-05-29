@@ -25,6 +25,7 @@ class PostsController < ApplicationController
                 user_count: @post.classifications.where(quality_id: quality.id, active: true).count,
                 classifiers_average: @post.classifiers_quality_average_raw(quality.id),
                 is_classified: !@session_user.classifications_made.where(post_id: @post.id, quality_id: quality.id, active: true).empty?,
+                max_rating: Post.all.map{|post| post.quality_rating(quality.id)}.sort.last
             }
         end
         # if params[:sort_by_rating]
