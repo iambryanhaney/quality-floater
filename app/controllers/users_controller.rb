@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
     before_action :get_user, only: [:show]
-    before_action :get_session_user, only: [:edit]
+    before_action :get_session_user, only: [:edit, :update]
     skip_before_action :authorized, only: [:new, :create]
 
     def show

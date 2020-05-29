@@ -18,8 +18,8 @@
                 <h3><%= @user.display_name %></h3>
                 <h4 style="color: gray">@<%= @user.username %></h4>
                 <div id="edit-logout-btns">
-                    <a class="ui button gray" role="button" href="/users/:id/edit">Edit Profile</a>
                     <% if session[:current_user_id] == @user.id %>
+                        <a class="ui button gray" role="button" href="/users/:id/edit">Edit Profile</a>
                         <form method="post" action="/users/logout">
                             <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
                             <button type="submit" class="ui button red">Logout</button>
@@ -59,7 +59,7 @@
             <br>
             <div class="ui container">
                 <h4>Posts</h4>                
-                    <% @user.posts.each do |post| %>
+                    <% @user.posts.reverse.each do |post| %>
                         <a class="ui card" href="<%= "/posts/#{post.id}" %>">
                             <div class="content">
                                 <div class="header"><%= post.title %></div>
