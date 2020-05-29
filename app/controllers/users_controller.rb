@@ -11,7 +11,7 @@ class UsersController < ApplicationController
                     rating_weighted: @user.quality_rating_weighted(q.id),
                     user_count: @user.classifications_received.where(quality_id: q.id).count,
                     classifier_avg: @user.classifiers_quality_average_raw(q.id),
-                    :max_rating: User.all.map{|user| user.quality_rating(q.id)}.sort.last
+                    max_rating: User.all.map{|user| user.quality_rating_raw(q.id)}.sort.last
                 }
             }
         if params[:sort_by_rating]
