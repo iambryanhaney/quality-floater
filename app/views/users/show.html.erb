@@ -35,11 +35,17 @@
                 </div>
 
                 <div class="ui grid" id="qualities-grid">
-                    <% @user_ratings.each do |rating| %>
+                    <% colors = ['blue', 'orange', 'green', 'brown'] %>
+                    <% @user_ratings.each_with_index do |rating, i| %>
                         <div class="three wide column">
                             <div class="ui card">
                                 <div class="content">
                                     <div class="center aligned header"><%= rating[:name] %></div>
+                                    
+                                        <div class="ui progress standard <%= rating[:rating_raw] > 0 ? colors[i] : 'gray' %>" >
+                                            <div class="bar" style="width: <%= rating[:rating_raw] > 0 ? (rating[:rating_raw]/rating[:max_rating])*100 : 0 %>%"></div>
+                                        </div>
+
                                     <div class="center aligned description">
                                     <p>Rating Received <strong><%= rating[:rating_raw].round(2) %></strong> by <%= rating[:user_count] %>
                                        users, with an average <strong><%= rating[:name].downcase %></strong> rating of <strong><%= rating[:classifier_avg].round(2) %></strong>
