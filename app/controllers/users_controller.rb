@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-    before_action :get_user, only: [:show]
+    before_action :get_user, only: [:show, :edit, :update]
     skip_before_action :authorized, only: [:new, :create]
 
     def show
@@ -27,12 +27,25 @@ class UsersController < ApplicationController
     def create
         @user = User.new(new_user_params)
         if @user.valid?
-            @user.display_name = @user.username.strip.gsub(' ', "_").downcase
+            @user.display_name = @user.username
             @user.save
             session[:current_user_id] = @user.id
             redirect_to posts_path
         else
             render :new
+        end
+    end
+
+    def edit
+    end
+
+    def update
+        @user.display_name = params[:display_name]
+        if @user.valid?
+            @user.save
+            redirect_to user_path(@user)
+        else 
+            render :edit
         end
     end
 
@@ -53,6 +66,6 @@ class UsersController < ApplicationController
     end
 
     def get_user
-        @user = User.find(params[:id])
+        @user = User.find(session[:current_user_id])
     end
 end
