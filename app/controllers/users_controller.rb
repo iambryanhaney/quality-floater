@@ -24,15 +24,21 @@ class UsersController < ApplicationController
         @user = User.new
     end
 
+    def create
+        @user = User.new(new_user_params)
+        if @user.valid?
+            @user.display_name = @user.username.strip.gsub(' ', "_").downcase
+            @user.save
+            session[:current_user_id] = @user.id
+            redirect_to posts_path
+        else
+            render :new
+        end
+    end
+
     def logout
         session[:current_user_id] = nil
         redirect_to welcome_path
-    end
-
-    def create
-        @user = User.create(new_user_params)
-        session[:current_user_id] = @user.id
-        redirect_to posts_path
     end
 
     # Helper Methods
