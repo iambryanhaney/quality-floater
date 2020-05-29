@@ -2,6 +2,8 @@ class User < ApplicationRecord
     has_secure_password
     has_many :user_qualities
     has_many :qualities, through: :user_qualities
+    validates :username, uniqueness: {message: "That username is already taken"}
+    validate :validate_username_length
 
     has_many :posts
 
@@ -39,6 +41,15 @@ class User < ApplicationRecord
     
     def get_user(id:)
         User.find(id)
+    end
+
+    private 
+    def validate_username_length
+        if self.username.length < 6 || self.username.length > 30
+            errors.add(:username, "Username must be between 6 and 30 characters")
+        elsif self.username.include? " "
+            errors.add(:username, "Username cannot contain spaces")
+        end
     end
 end
 

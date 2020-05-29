@@ -1,4 +1,11 @@
 GIT
+  remote: https://github.com/doabit/semantic-ui-sass.git
+  revision: af590657254cc0051f5ef44b99eb60e63b2c21d8
+  specs:
+    semantic-ui-sass (2.4.2.0)
+      sassc
+
+GIT
   remote: https://github.com/faker-ruby/faker.git
   revision: acebadd87a4d7fadc7726e315def5bb518915a82
   branch: master
@@ -223,6 +230,7 @@ DEPENDENCIES
   rails (~> 6.0.3, >= 6.0.3.1)
   sass-rails (>= 6)
   selenium-webdriver
+  semantic-ui-sass!
   spring
   spring-watcher-listen (~> 2.0.0)
   sqlite3 (~> 1.4)
