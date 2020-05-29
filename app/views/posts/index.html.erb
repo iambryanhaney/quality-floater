@@ -14,12 +14,12 @@
             <% @posts.each do |post| %>
                 <div class="post-cell card" href="users/new">
                     <div class="card-body">
-                        <a href="<%= "posts/#{post.id}" %>"><h5 class="card-title"><%= post.title %></h5></a>
+                        <a href="posts/<%= post.id %>"><h5 class="card-title"><%= truncate(post.title, length: 100) %></h5></a>
                         <h6 class="card-title"><%= post.user.display_name %></h6>
                         <h6 class="card-title"><%= post.created_at %></h6>
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><%= post.content[0...100] %>...</li>
+                        <li class="list-group-item"><%= truncate(post.content, length: 200) %>...</li>
                     </ul>
                 </div>
                 <br>

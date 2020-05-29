@@ -6,21 +6,26 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+
+    # Ensure deterministic outcome of randomization
 Faker::Config.random = Random.new(42)
+srand(1000)
+
 
 
     ###
     ### Users
     ###
 
-antonio = User.create(display_name: "Antonio", username: "antonio", password: "12345")
-bryan = User.create(display_name: "Bryan Haney", username: "bryan_haney", password: "12345")
-noah = User.create(display_name: "Noah Shafer", username: "noah_shafer", password: "12345")
-marshall = User.create(display_name: "Marshall", username: "marshall", password: "12345")
-# nandita = User.create(display_name: "Nandita", username: "antonio")
-cameron = User.create(display_name: "Cameron", username: "cameron", password: "12345")
-# ryan = User.create(display_name: "Ryan", username: "antonio")
-# alex = User.create(display_name: "Alex", username: "antonio")
+password = "12345"
+antonio = User.create(display_name: "Antonio", username: "antonio", password: password)
+bryan = User.create(display_name: "Bryan Haney", username: "bryan_haney", password: password)
+noah = User.create(display_name: "Noah Shafer", username: "noah_shafer", password: password)
+marshall = User.create(display_name: "Marshall", username: "marshall", password: password)
+nandita = User.create(display_name: "Nandita", username: "nandita", password: password)
+cameron = User.create(display_name: "Cameron", username: "cameron", password: password)
+ryan = User.create(display_name: "Ryan", username: "ryan", password: password)
+alex = User.create(display_name: "Alex", username: "alex", password: password)
 
 20.times do
     temp_name = Faker::Name.unique.name
@@ -45,6 +50,18 @@ noah.posts.create(title: "A little music for you...", content: "Here's a track I
 
 cameron.posts.create(title: "On being a supervillain...", content: "It's tough being evil all day. I really feel for the people I destroy.")
 
+    # Random posts with Silicon Valley content
+17.times do
+    user = User.all.sample
+    user.posts.create(title: Faker::Company.unique.bs.titleize, content: Faker::TvShows::SiliconValley.unique.quote)
+end
+
+    # Random posts with Rick And Morty content
+52.times do
+    user = User.all.sample
+    user.posts.create(title: Faker::Company.unique.bs.titleize, content: Faker::TvShows::RickAndMorty.unique.quote)
+end
+
 
 
 
@@ -65,13 +82,23 @@ dedicated = Quality.create(name: "Dedicated", description: "A focused tenacity."
     ###
 
         # Classifying Bryan's posts
-Classification.create(user_id: bryan.id, classifier_id: antonio.id, post_id: bryan.posts.first.id, quality_id: creative.id, rating_raw: 1929, rating_weighted: 11.914385132155443)
-Classification.create(user_id: bryan.id, classifier_id: noah.id, post_id: bryan.posts.first.id, quality_id: creative.id, rating_raw: 37, rating_weighted: 6.247927513443585)
-Classification.create(user_id: bryan.id, classifier_id: marshall.id, post_id: bryan.posts.second.id, quality_id: empathetic.id, rating_raw: 111, rating_weighted: 7.807354922057604)
+antonio.classify_post(bryan.posts.first, Quality.find_by(name: "Creative").id)
+noah.classify_post(bryan.posts.first, Quality.find_by(name: "Creative").id)
+marshall.classify_post(bryan.posts.second, Quality.find_by(name: "Empathetic").id)
 
-        # Classifying Cameron's posts
-Classification.create(user_id: cameron.id, classifier_id: bryan.id, post_id: cameron.posts.first.id, quality_id: empathetic.id, rating_raw: bryan.quality_rating_raw(empathetic.id), rating_weighted: bryan.quality_rating_weighted(empathetic.id))
-Classification.create(user_id: cameron.id, classifier_id: antonio.id, post_id: cameron.posts.first.id, quality_id: empathetic.id, rating_raw: antonio.quality_rating_raw(empathetic.id), rating_weighted: antonio.quality_rating_weighted(empathetic.id))
+        # Classifying Cameron's post
+bryan.classify_post(cameron.posts.first, Quality.find_by(name: "Empathetic").id)
+
+        # Random classifications (with deterministic outcome)
+500.times do
+    classifier = User.all.sample # Random user
+    post = Post.all.where.not(user_id: classifier.id).sample # Random post that does not belong to user
+    quality = Quality.all.sample # Random quality
+    classifier.classify_post(post, quality.id)
+end
+
+
+
 
 
 
