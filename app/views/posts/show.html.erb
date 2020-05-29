@@ -45,7 +45,9 @@
         <div class="ui text container">
             <h1><%= @post.title %></h1>
             <p><strong><%= @post.user.username  %></strong></p>
-            <p style="font-size=20px"><%= @post.content  %></p>
+            <div class="ui raised very padded text container segment">
+                <p style="font-size=20px"><%= @post.content  %></p>
+            </div>
 
             <% @post_ratings.each do |rating| %>
                 <form class="ui form" accept-charset="UTF-8" action="<%= classify_path(@post) %>" data-remote="true" method="post">

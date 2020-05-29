@@ -6,34 +6,55 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 </head>
     <body>
-
-        <h1><%= @user.display_name %></h1>
-        <h1><%= @user.username %></h1>
-        <br>
-        <h2>Qualities</h2>
-
-        <a role="button" href='<%= @user.id %>' class="<%= params[:sort_by_rating] ? "btn btn-outline-secondary" : "btn btn-primary" %>" %>>A-Z</a>
-        <a role="button" href='<%= @user.id %>?sort_by_rating=true' class="<%= params[:sort_by_rating] ? "btn btn-primary" : "btn btn-outline-secondary"%>" >Rating High to Low</a>
-
-        <% @user_ratings.each do |rating| %>
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title"><%= rating[:name] %></h5>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Rating Received <%= rating[:rating_raw].round(2) %> by <%= rating[:user_count] %>
-                        users, with an average <%= rating[:name].downcase %> rating of <%= rating[:classifier_avg] %></li>
-                    <li class="list-group-item">Voting Weight: <%= rating[:rating_weighted].round(2) %></li>
-                </ul>
+        <div class="ui borderless inverted main menu">
+            <div class="ui text container">
+            <a href="/posts" class="item"><strong>Quality Floater</strong></a>
+            <a href="<%= "/users/#{session[:current_user_id]}" %>" class="item">My Account</a>
+            <a href="/posts/new" class="item">Create Post</a>
             </div>
-            <br>
+        </div>
+        <div class="ui container">        
+            <div class="ui container">
+                <h3><%= @user.display_name %></h3>
+                <h4 style="color: gray">@<%= @user.username %></h4>
+                <div id="edit-logout-btns">
+                    <a class="ui button gray" role="button" href="/users/edit">Edit Profile</a>
+                    <form method="post" action="/users/logout">
+                        <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+                        <button type="submit" class="ui button red">Logout</button>
+                    </form>
+                </div>
+            </div>
+            <div class="ui container">
+                <div id="sort-qualities-btns">
+                    <h4>Qualities</h4>
+                    <a role="button" href='<%= @user.id %>' class="<%= params[:sort_by_rating] ? "ui button gray" : "ui button blue" %>" %>A-Z</a>
+                    <a role="button" href='<%= @user.id %>?sort_by_rating=true' class="<%= params[:sort_by_rating] ? "ui button blue" : "ui button gray"%>" >Rating High to Low</a>
+                </div>
 
-        <% end %>
-
-        <% if @user.id == session[:current_user_id] %>
-        <%= button_to "Logout", '/users/logout', method: :post%>
-        <% end %>
-
+                <div class="ui grid" id="qualities-grid">
+                    <% @user_ratings.each do |rating| %>
+                        <div class="three wide column">
+                            <div class="ui card">
+                                <div class="content">
+                                    <div class="center aligned header"><%= rating[:name] %></div>
+                                    <div class="center aligned description">
+                                    <p>Rating Received <strong><%= rating[:rating_raw].round(2) %></strong> by <%= rating[:user_count] %>
+                                       users, with an average <strong><%= rating[:name].downcase %></strong> rating of <strong><%= rating[:classifier_avg].round(2) %></strong>
+                                    </p>
+                                    </div>
+                                </div>
+                                <div class="extra content">
+                                    <div class="center aligned author">
+                                        Voting Weight: <%= rating[:rating_weighted].round(2) %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <% end %>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
 
