@@ -4,6 +4,16 @@ class PostsController < ApplicationController
         @posts = Post.all.order(id: :desc)
     end
 
+    def new 
+    end
+
+    def create 
+        @post = Post.new(post_params)
+        @post.user = User.find(session[:current_user_id])
+        @post.save
+        redirect_to posts_path
+    end
+
     def show
         @post_ratings = Quality.all.order(:name).map do |quality| 
             {
@@ -26,5 +36,9 @@ class PostsController < ApplicationController
     private
     def get_post
         @post = Post.find(params[:id])
+    end
+
+    def post_params
+        params.require(:post).permit(:title, :content)
     end
 end
