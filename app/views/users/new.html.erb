@@ -11,10 +11,13 @@
 <%
 =end%>
 
-<% if !@user.errors.empty? %>   
+<%
+=begin%>
+ <% if !@user.errors.empty? %>   
    <p><%= @user.errors.messages[:username].first %></p>
-<% end %>
-
+<% end %> 
+<%
+=end%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -109,7 +112,7 @@
         Sign Up
       </div>
     </h2>
-    <form class="ui large form" accept-charset="UTF-8" action="/users" data-remote="true" method="post">
+    <form class="ui large form error" accept-charset="UTF-8" action="/users" data-remote="true" method="post">
       <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
       <div class="ui stacked segment">
         <div class="field">
@@ -124,21 +127,18 @@
             <input type="password" name="user[password]" placeholder="Password">
           </div>
         </div>
+        <% if !@user.errors.empty? %>
+           <div class="ui error message">
+          <% @user.errors.messages[:username].each do |m| %>
+              <p><%= m %></p>
+            <% end %>
+        </div> 
+        <% end %>
+      
         <button type="submit" class="ui fluid large blue submit button">Sign Up</button>
+
       </div>
-
-      <div class="ui error message"></div>
-
     </form>
-
-    <%
-=begin%>
- <div class="ui message">
-      New to us? <a href="#">Sign Up</a>
-    </div>
-  </div> 
-<%
-=end%>
 </div>
 
 </body>

@@ -44,12 +44,17 @@
 
         <div class="ui text container">
             <h1><%= @post.title %></h1>
-            <p><strong><%= @post.user.username  %></strong></p>
-
+            <a href="<%= "/users/#{@post.user.id}"  %>"><strong><%= @post.user.username  %></strong></a>
+            <% if session[:current_user_id] == @post.user.id %>
+                <form method="post" action=<%= "/posts/#{@post.id}" %>>
+                    <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+                    <input name="_method" type="hidden" value="delete" />                       
+                    <button type="submit" class="ui button red">Delete Post</button>
+                </form>
+            <% end %>
             <div class="ui raised very padded text container segment">
                 <p style="font-size=20px"><%= @post.content  %></p>
             </div>
-          
             <% colors = ['blue', 'orange', 'green', 'brown'] %>
             <% @post_ratings.each_with_index do |rating, i| %>
                 <form class="ui form" accept-charset="UTF-8" action="<%= classify_path(@post) %>" data-remote="true" method="post">
