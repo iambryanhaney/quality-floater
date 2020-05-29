@@ -12,8 +12,6 @@
 
             <a role="button" href='2' class="<%= params[:sort_by_rating] ? "btn btn-outline-secondary" : "btn btn-primary" %>" %>>A-Z</a>
             <a role="button" href='2?sort_by_rating=true' class="<%= params[:sort_by_rating] ? "btn btn-primary" : "btn btn-outline-secondary"%>" >Rating High to Low</a>
-
-            
         </div>
     </body>
 </html> 
@@ -153,7 +151,7 @@
             <div class="card-body">
                 <a href="posts/<%= post.id %>"><h5 class="card-title"><%= truncate(post.title, length: 100) %></h5></a>
                 <h6 class="card-title"><%= post.user.display_name %></h6>
-                <h6 class="card-title"><%= post.created_at %></h6>
+                <h6 class="card-title"><%= post.created_at.strftime('%A, %B %-d at %-l:%M %p') %></h6>
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item"><%= truncate(post.content, length: 200) %>...</li>
