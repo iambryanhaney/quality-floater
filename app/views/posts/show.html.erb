@@ -19,7 +19,7 @@
         <a role="button" href='<%= post_path(@post) %>' class="<%= @session_user.classifications_made.where(post_id: @post.id, quality_id: rating[:id]).empty? ? "btn btn-outline-secondary" : "btn btn-primary" %>">
             <%= rating[:name] %> </a> 
             <%= rating[:rating].round(2) %> rating by <%= rating[:user_count] %> users,
-            with an average <%= rating[:name] %> of <br>
+            with an average <%= rating[:name] %> of <%= rating[:classifiers_average].round(2) %> <br>
         <% end %>
 
         <br><br><br>

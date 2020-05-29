@@ -11,7 +11,7 @@ class PostsController < ApplicationController
                 id: quality.id,
                 rating: @post.quality_rating(quality.id), 
                 user_count: @post.classifications.where(quality_id: quality.id).count,
-                #:classifier_avg => @post.classifiers_quality_average_raw(q.id)
+                classifiers_average: @post.classifiers_quality_average_raw(quality.id)
             }
         end
         @session_user = User.find(session[:current_user_id])
