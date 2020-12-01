@@ -1,24 +1,6 @@
-# README
+# Quality Floater
+A forum app invoking a novel system to rank social media posts via binary-weighted tags.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+The relevance of a user's feedback is logarithmically scaled based on feedback that user has received. Only positive feedback is allowed, with users choosing from a curated list of qualities, such as intelligence, empathy and creativity.
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ......
+Thus, through positive feedback loops, quality users and quality posts float to the top.
